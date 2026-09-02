@@ -13,14 +13,17 @@
   --muted:#777;
   --border:#e5e7eb;
   --today:#111827;
-  --attend:#FF6F91;
-  --late:#FF9671;
-  --absent-unexcused:#FFC75F;
-  --absent:#F9F871;
-  --rest:#D65DB1;
+
+  /* 출석 / 지각 / 결석 / 휴식 색상 */
+  --attend:#D6E58D;
+  --late:#F9E1A8;
+  --absent:#FCCBE1;
+  --rest:#BCD8EC;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box
+}
 
 body{
   margin:0;
@@ -187,12 +190,25 @@ body{
   background:#eef0f2
 }
 
-.bar.attend{background:var(--attend)}
-.bar.late{background:var(--late)}
-.bar.absent-unexcused{background:var(--absent-unexcused)}
-.bar.absent{background:var(--absent)}
-.bar.rest{background:var(--rest)}
-.bar.none{background:#eef0f2}
+.bar.attend{
+  background:var(--attend)
+}
+
+.bar.late{
+  background:var(--late)
+}
+
+.bar.absent{
+  background:var(--absent)
+}
+
+.bar.rest{
+  background:var(--rest)
+}
+
+.bar.none{
+  background:#eef0f2
+}
 
 .modal-backdrop{
   position:fixed;
@@ -259,7 +275,7 @@ body{
 
 .buttons{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:7px
 }
 
@@ -273,7 +289,7 @@ body{
 }
 
 .buttons button.selected{
-  color:#fff;
+  color:#202124;
   border-color:transparent;
   font-weight:700
 }
@@ -284,10 +300,6 @@ body{
 
 .buttons button[data-status="late"].selected{
   background:var(--late)
-}
-
-.buttons button[data-status="absent-unexcused"].selected{
-  background:#eab308
 }
 
 .buttons button[data-status="absent"].selected{
@@ -339,6 +351,7 @@ body{
 }
 
 @media(max-width:650px){
+
   .app{
     padding:18px 8px 30px
   }
@@ -381,7 +394,7 @@ body{
   }
 
   .buttons{
-    grid-template-columns:repeat(5,1fr)
+    grid-template-columns:repeat(4,1fr)
   }
 
   .buttons button{
@@ -394,11 +407,14 @@ body{
 
 <body>
 
-<div class="loading" id="loading">데이터 불러오는 중...</div>
+<div class="loading" id="loading">
+  데이터 불러오는 중...
+</div>
 
 <div class="app">
 
   <div class="header">
+
     <div class="title">
       <h1>2026 출석 캘린더</h1>
       <p>날짜를 클릭하여 4명의 상태를 기록하세요.</p>
@@ -406,23 +422,53 @@ body{
 
     <div class="nav">
       <button id="prev" aria-label="이전 달">‹</button>
+
       <div class="month" id="monthLabel"></div>
+
       <button id="next" aria-label="다음 달">›</button>
     </div>
+
   </div>
 
+
+  <!-- 범례 -->
+
   <div class="legend">
-    <span><i class="dot" style="background:var(--attend)"></i>출석</span>
-    <span><i class="dot" style="background:var(--late)"></i>지각</span>
-    <span><i class="dot" style="background:var(--absent-unexcused)"></i>무단</span>
-    <span><i class="dot" style="background:var(--absent)"></i>결석</span>
-    <span><i class="dot" style="background:var(--rest)"></i>휴식</span>
+
+    <span>
+      <i class="dot" style="background:var(--attend)"></i>
+      출석
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--late)"></i>
+      지각
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--absent)"></i>
+      결석
+    </span>
+
+    <span>
+      <i class="dot" style="background:var(--rest)"></i>
+      휴식
+    </span>
+
   </div>
+
+
+  <!-- 통계 -->
 
   <div class="stats" id="stats"></div>
 
+
+  <!-- 달력 -->
+
   <div class="calendar">
+
     <div class="weekdays">
+
       <div>일</div>
       <div>월</div>
       <div>화</div>
@@ -430,10 +476,13 @@ body{
       <div>목</div>
       <div>금</div>
       <div>토</div>
+
     </div>
 
     <div class="days" id="days"></div>
+
   </div>
+
 
   <div class="footer">
     출석 기록은 온라인으로 저장되며 모든 사용자에게 공유됩니다.
@@ -441,13 +490,21 @@ body{
 
 </div>
 
+
+<!-- 출석 입력 모달 -->
+
 <div class="modal-backdrop" id="backdrop">
 
   <div class="modal">
 
     <div class="modal-head">
+
       <h2 id="modalTitle"></h2>
-      <button class="close" id="close">×</button>
+
+      <button class="close" id="close">
+        ×
+      </button>
+
     </div>
 
     <div id="people" class="people-grid"></div>
@@ -476,26 +533,29 @@ import {
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyCqynccAXXMU4OgIRxkhPSFcbjsplQucr8",
+  apiKey:
+    "AIzaSyCqynccAXXMU4OgIRxkhPSFcbjsplQucr8",
 
-  authDomain: "attendancecalendar-44661.firebaseapp.com",
+  authDomain:
+    "attendancecalendar-44661.firebaseapp.com",
 
-  projectId: "attendancecalendar-44661",
+  projectId:
+    "attendancecalendar-44661",
 
-  storageBucket: "attendancecalendar-44661.firebasestorage.app",
+  storageBucket:
+    "attendancecalendar-44661.firebasestorage.app",
 
-  messagingSenderId: "471894956788",
+  messagingSenderId:
+    "471894956788",
 
-  appId: "1:471894956788:web:5532207c39d67766f3dca1",
+  appId:
+    "1:471894956788:web:5532207c39d67766f3dca1",
 
-  measurementId: "G-VTJY1QPVTX",
+  measurementId:
+    "G-VTJY1QPVTX",
 
-  /*
-   * Firebase Realtime Database 주소를 입력하세요.
-   * Firebase Console → Realtime Database → Data
-   * 상단에 표시되는 주소를 넣으면 됩니다.
-   */
-  databaseURL: "https://attendancecalendar-44661-default-rtdb.firebaseio.com"
+  databaseURL:
+    "https://attendancecalendar-44661-default-rtdb.firebaseio.com"
 };
 
 
@@ -503,7 +563,8 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
-const attendanceRef = ref(db, "attendance2026");
+const attendanceRef =
+  ref(db, "attendance2026");
 
 
 /* =========================================================
@@ -517,21 +578,20 @@ const PEOPLE = [
   "이은지"
 ];
 
+
 const STATUSES = [
+
   ["attend","출석"],
+
   ["late","지각"],
-  ["absent-unexcused","무단"],
+
   ["absent","결석"],
+
   ["rest","휴식"]
+
 ];
 
 
-/*
- * 8 = 9월
- * 9 = 10월
- * 10 = 11월
- * 11 = 12월
- */
 const MONTHS = [8,9,10,11];
 
 let monthIndex = 0;
@@ -545,24 +605,12 @@ let selectedDate = null;
    Firebase 데이터 불러오기
    ========================================================= */
 
-const loading = document.getElementById("loading");
+const loading =
+  document.getElementById("loading");
 
 loading.style.display = "block";
 
 
-/*
- * Firebase 데이터가 변경될 때마다 자동 실행됩니다.
- *
- * 따라서:
- *
- * 나 → 출석 클릭
- *       ↓
- * Firebase 데이터 변경
- *       ↓
- * 모든 사람의 브라우저에서 onValue 실행
- *       ↓
- * 캘린더 자동 업데이트
- */
 onValue(attendanceRef, (snapshot) => {
 
   data = snapshot.val() || {};
@@ -622,15 +670,19 @@ function currentMonth(){
 
 function render(){
 
-  const month = currentMonth();
+  const month =
+    currentMonth();
 
-  const year = 2026;
+  const year =
+    2026;
+
 
   document.getElementById("monthLabel").textContent =
     `${year}년 ${month+1}월`;
 
 
-  const days = document.getElementById("days");
+  const days =
+    document.getElementById("days");
 
   days.innerHTML = "";
 
@@ -643,25 +695,22 @@ function render(){
     new Date(year,month+1,0).getDate();
 
 
-  /*
-   * 월 시작 전 빈 칸
-   */
+  /* 월 시작 전 빈 칸 */
 
   for(let i=0;i<first;i++){
 
     const e =
       document.createElement("div");
 
-    e.className = "day empty";
+    e.className =
+      "day empty";
 
     days.appendChild(e);
 
   }
 
 
-  /*
-   * 날짜 생성
-   */
+  /* 날짜 생성 */
 
   for(let d=1;d<=last;d++){
 
@@ -751,8 +800,6 @@ function renderStats(){
     attend:0,
 
     late:0,
-
-    "absent-unexcused":0,
 
     absent:0,
 
@@ -862,9 +909,7 @@ function openModal(k,d){
 
       b.onclick = async ()=>{
 
-        /*
-         * 같은 버튼을 다시 누르면 취소
-         */
+        /* 같은 버튼을 다시 누르면 취소 */
 
         if(data[k]?.[p] === s){
 
@@ -880,12 +925,9 @@ function openModal(k,d){
 
           }
 
-
         }
 
-        /*
-         * 다른 상태를 누르면 변경
-         */
+        /* 다른 상태를 누르면 변경 */
 
         else{
 
@@ -900,16 +942,12 @@ function openModal(k,d){
         }
 
 
-        /*
-         * Firebase 저장
-         */
+        /* Firebase 저장 */
 
         await save();
 
 
-        /*
-         * 모달 버튼 상태 업데이트
-         */
+        /* 버튼 상태 업데이트 */
 
         [...buttons.children].forEach(x=>{
 
