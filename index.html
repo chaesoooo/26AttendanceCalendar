@@ -336,6 +336,51 @@ body{
   margin-left:4px
 }
 
+
+/* =========================================================
+   누적 벌금
+   ========================================================= */
+
+.fine-section{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  margin:0 0 14px;
+}
+
+.fine-title{
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+.fine-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.fine-person{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#fafafa;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:13px;
+}
+
+.fine-name{
+  font-weight:600;
+}
+
+.fine-amount{
+  font-weight:700;
+}
+
+
 .loading{
   position:fixed;
   left:50%;
@@ -401,6 +446,16 @@ body{
     font-size:10px;
     padding:8px 2px
   }
+
+  .fine-list{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .fine-person{
+    padding:9px 8px;
+    font-size:11px;
+  }
+
 }
 </style>
 </head>
@@ -421,11 +476,17 @@ body{
     </div>
 
     <div class="nav">
-      <button id="prev" aria-label="이전 달">‹</button>
+
+      <button id="prev" aria-label="이전 달">
+        ‹
+      </button>
 
       <div class="month" id="monthLabel"></div>
 
-      <button id="next" aria-label="다음 달">›</button>
+      <button id="next" aria-label="다음 달">
+        ›
+      </button>
+
     </div>
 
   </div>
@@ -461,6 +522,19 @@ body{
   <!-- 통계 -->
 
   <div class="stats" id="stats"></div>
+
+
+  <!-- 누적 벌금 -->
+
+  <div class="fine-section">
+
+    <div class="fine-title">
+      누적 벌금
+    </div>
+
+    <div class="fine-list" id="fineList"></div>
+
+  </div>
 
 
   <!-- 달력 -->
@@ -559,9 +633,11 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const db = getDatabase(app);
+const db =
+  getDatabase(app);
 
 const attendanceRef =
   ref(db, "attendance2026");
@@ -572,10 +648,15 @@ const attendanceRef =
    ========================================================= */
 
 const PEOPLE = [
+
   "정채주",
+
   "조소영",
+
   "엄영우",
+
   "이은지"
+
 ];
 
 
@@ -592,7 +673,13 @@ const STATUSES = [
 ];
 
 
-const MONTHS = [8,9,10,11];
+const MONTHS = [
+  8,
+  9,
+  10,
+  11
+];
+
 
 let monthIndex = 0;
 
@@ -613,7 +700,8 @@ loading.style.display = "block";
 
 onValue(attendanceRef, (snapshot) => {
 
-  data = snapshot.val() || {};
+  data =
+    snapshot.val() || {};
 
   loading.style.display = "none";
 
@@ -630,11 +718,17 @@ async function save(){
 
   try{
 
-    await update(attendanceRef, data);
+    await update(
+      attendanceRef,
+      data
+    );
 
   }catch(error){
 
-    console.error("저장 오류:", error);
+    console.error(
+      "저장 오류:",
+      error
+    );
 
     alert(
       "출석 기록을 저장하지 못했습니다.\n\n" +
@@ -677,7 +771,9 @@ function render(){
     2026;
 
 
-  document.getElementById("monthLabel").textContent =
+  document.getElementById(
+    "monthLabel"
+  ).textContent =
     `${year}년 ${month+1}월`;
 
 
@@ -688,16 +784,28 @@ function render(){
 
 
   const first =
-    new Date(year,month,1).getDay();
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
 
 
   const last =
-    new Date(year,month+1,0).getDate();
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
 
 
   /* 월 시작 전 빈 칸 */
 
-  for(let i=0;i<first;i++){
+  for(
+    let i = 0;
+    i < first;
+    i++
+  ){
 
     const e =
       document.createElement("div");
@@ -712,10 +820,18 @@ function render(){
 
   /* 날짜 생성 */
 
-  for(let d=1;d<=last;d++){
+  for(
+    let d = 1;
+    d <= last;
+    d++
+  ){
 
     const k =
-      key(year,month,d);
+      key(
+        year,
+        month,
+        d
+      );
 
 
     const cell =
@@ -733,49 +849,74 @@ function render(){
 
 
     cell.className =
-      "day" + (isToday ? " today" : "");
+      "day" +
+      (
+        isToday
+          ? " today"
+          : ""
+      );
 
 
     cell.innerHTML = `
-      <div class="date-number">${d}</div>
+      <div class="date-number">
+        ${d}
+      </div>
+
       <div class="statuses"></div>
     `;
 
 
     const statuses =
-      cell.querySelector(".statuses");
+      cell.querySelector(
+        ".statuses"
+      );
 
 
-    PEOPLE.forEach(p=>{
+    PEOPLE.forEach(
+      p => {
 
-      const s =
-        data[k]?.[p] || "none";
-
-
-      const row =
-        document.createElement("div");
+        const s =
+          data[k]?.[p] ||
+          "none";
 
 
-      row.className =
-        "person-status";
+        const row =
+          document.createElement(
+            "div"
+          );
 
 
-      row.innerHTML = `
-        <span class="name">${p}</span>
-        <span class="bar ${s}"></span>
-      `;
+        row.className =
+          "person-status";
 
 
-      statuses.appendChild(row);
+        row.innerHTML = `
+          <span class="name">
+            ${p}
+          </span>
 
-    });
+          <span class="bar ${s}"></span>
+        `;
+
+
+        statuses.appendChild(
+          row
+        );
+
+      }
+    );
 
 
     cell.onclick =
-      () => openModal(k,d);
+      () => openModal(
+        k,
+        d
+      );
 
 
-    days.appendChild(cell);
+    days.appendChild(
+      cell
+    );
 
   }
 
@@ -786,14 +927,25 @@ function render(){
 
 
 /* =========================================================
-   통계
+   통계 + 누적 벌금
    ========================================================= */
 
 function renderStats(){
 
   const el =
-    document.getElementById("stats");
+    document.getElementById(
+      "stats"
+    );
 
+  const fineList =
+    document.getElementById(
+      "fineList"
+    );
+
+
+  /* -----------------------------------------
+     전체 출석 상태 통계
+     ----------------------------------------- */
 
   const counts = {
 
@@ -808,32 +960,110 @@ function renderStats(){
   };
 
 
-  Object.values(data).forEach(day=>{
+  Object.values(data)
+    .forEach(day => {
 
-    Object.values(day).forEach(s=>{
+      Object.values(day)
+        .forEach(s => {
 
-      if(counts[s] !== undefined){
+          if(
+            counts[s] !== undefined
+          ){
 
-        counts[s]++;
+            counts[s]++;
 
-      }
+          }
+
+        });
 
     });
 
-  });
-
 
   el.innerHTML =
-    STATUSES.map(([s,n])=>{
+    STATUSES
+      .map(
+        ([s,n]) => {
 
-      return `
-        <div class="stat">
-          ${n}
-          <b>${counts[s]}</b>
-        </div>
-      `;
+          return `
+            <div class="stat">
+              ${n}
+              <b>
+                ${counts[s]}
+              </b>
+            </div>
+          `;
 
-    }).join("");
+        }
+      )
+      .join("");
+
+
+  /* -----------------------------------------
+     사람별 누적 벌금
+     
+     지각 1회 = 1,000원
+     결석 1회 = 2,500원
+     ----------------------------------------- */
+
+  fineList.innerHTML =
+    PEOPLE
+      .map(
+        person => {
+
+          let lateCount = 0;
+
+          let absentCount = 0;
+
+
+          Object.values(data)
+            .forEach(day => {
+
+              const status =
+                day?.[person];
+
+
+              if(
+                status === "late"
+              ){
+
+                lateCount++;
+
+              }
+
+
+              if(
+                status === "absent"
+              ){
+
+                absentCount++;
+
+              }
+
+            });
+
+
+          const fine =
+            (lateCount * 1000) +
+            (absentCount * 2500);
+
+
+          return `
+            <div class="fine-person">
+
+              <span class="fine-name">
+                ${person}
+              </span>
+
+              <span class="fine-amount">
+                ${fine.toLocaleString()}원
+              </span>
+
+            </div>
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
@@ -844,18 +1074,24 @@ function renderStats(){
 
 function openModal(k,d){
 
-  selectedDate = k;
+  selectedDate =
+    k;
 
 
-  document.getElementById("modalTitle").textContent =
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
     `2026년 ${currentMonth()+1}월 ${d}일`;
 
 
   const people =
-    document.getElementById("people");
+    document.getElementById(
+      "people"
+    );
 
 
-  people.innerHTML = "";
+  people.innerHTML =
+    "";
 
 
   if(!data[k]){
@@ -865,122 +1101,172 @@ function openModal(k,d){
   }
 
 
-  PEOPLE.forEach(p=>{
+  PEOPLE.forEach(
+    p => {
 
-    const wrap =
-      document.createElement("div");
-
-
-    wrap.className =
-      "person";
-
-
-    const current =
-      data[k][p] || "";
+      const wrap =
+        document.createElement(
+          "div"
+        );
 
 
-    wrap.innerHTML = `
-      <div class="person-name">${p}</div>
-      <div class="buttons"></div>
-    `;
+      wrap.className =
+        "person";
 
 
-    const buttons =
-      wrap.querySelector(".buttons");
+      const current =
+        data[k][p] || "";
 
 
-    STATUSES.forEach(([s,label])=>{
+      wrap.innerHTML = `
+        <div class="person-name">
+          ${p}
+        </div>
 
-      const b =
-        document.createElement("button");
-
-
-      b.dataset.status = s;
-
-      b.textContent = label;
+        <div class="buttons"></div>
+      `;
 
 
-      if(current === s){
+      const buttons =
+        wrap.querySelector(
+          ".buttons"
+        );
 
-        b.classList.add("selected");
 
-      }
+      STATUSES.forEach(
+        ([s,label]) => {
+
+          const b =
+            document.createElement(
+              "button"
+            );
 
 
-      b.onclick = async ()=>{
+          b.dataset.status =
+            s;
 
-        /* 같은 버튼을 다시 누르면 취소 */
-
-        if(data[k]?.[p] === s){
-
-          delete data[k][p];
+          b.textContent =
+            label;
 
 
           if(
-            data[k] &&
-            Object.keys(data[k]).length === 0
+            current === s
           ){
 
-            delete data[k];
+            b.classList.add(
+              "selected"
+            );
 
           }
 
+
+          b.onclick =
+            async () => {
+
+              /* --------------------------------
+                 같은 버튼을 다시 누르면 취소
+                 -------------------------------- */
+
+              if(
+                data[k]?.[p] === s
+              ){
+
+                delete data[k][p];
+
+
+                if(
+                  data[k] &&
+                  Object.keys(
+                    data[k]
+                  ).length === 0
+                ){
+
+                  delete data[k];
+
+                }
+
+              }
+
+
+              /* --------------------------------
+                 다른 상태를 누르면 변경
+                 -------------------------------- */
+
+              else{
+
+                if(!data[k]){
+
+                  data[k] = {};
+
+                }
+
+                data[k][p] =
+                  s;
+
+              }
+
+
+              /* Firebase 저장 */
+
+              await save();
+
+
+              /* 버튼 상태 업데이트 */
+
+              [
+                ...buttons.children
+              ].forEach(
+                x => {
+
+                  x.classList.remove(
+                    "selected"
+                  );
+
+                }
+              );
+
+
+              if(
+                data[k]?.[p] === s
+              ){
+
+                b.classList.add(
+                  "selected"
+                );
+
+              }
+
+
+              /* 달력 + 통계 + 벌금 갱신 */
+
+              render();
+
+            };
+
+
+          buttons.appendChild(
+            b
+          );
+
         }
-
-        /* 다른 상태를 누르면 변경 */
-
-        else{
-
-          if(!data[k]){
-
-            data[k] = {};
-
-          }
-
-          data[k][p] = s;
-
-        }
+      );
 
 
-        /* Firebase 저장 */
+      people.appendChild(
+        wrap
+      );
 
-        await save();
-
-
-        /* 버튼 상태 업데이트 */
-
-        [...buttons.children].forEach(x=>{
-
-          x.classList.remove("selected");
-
-        });
-
-
-        if(data[k]?.[p] === s){
-
-          b.classList.add("selected");
-
-        }
-
-
-        render();
-
-      };
-
-
-      buttons.appendChild(b);
-
-    });
-
-
-    people.appendChild(wrap);
-
-  });
+    }
+  );
 
 
   document
-    .getElementById("backdrop")
-    .classList.add("open");
+    .getElementById(
+      "backdrop"
+    )
+    .classList.add(
+      "open"
+    );
 
 }
 
@@ -992,10 +1278,15 @@ function openModal(k,d){
 function closeModal(){
 
   document
-    .getElementById("backdrop")
-    .classList.remove("open");
+    .getElementById(
+      "backdrop"
+    )
+    .classList.remove(
+      "open"
+    );
 
-  selectedDate = null;
+  selectedDate =
+    null;
 
 }
 
@@ -1004,9 +1295,13 @@ function closeModal(){
    이전 / 다음 달
    ========================================================= */
 
-document.getElementById("prev").onclick = ()=>{
+document.getElementById(
+  "prev"
+).onclick = () => {
 
-  if(monthIndex > 0){
+  if(
+    monthIndex > 0
+  ){
 
     monthIndex--;
 
@@ -1017,9 +1312,13 @@ document.getElementById("prev").onclick = ()=>{
 };
 
 
-document.getElementById("next").onclick = ()=>{
+document.getElementById(
+  "next"
+).onclick = () => {
 
-  if(monthIndex < 3){
+  if(
+    monthIndex < 3
+  ){
 
     monthIndex++;
 
@@ -1034,14 +1333,21 @@ document.getElementById("next").onclick = ()=>{
    닫기 버튼
    ========================================================= */
 
-document.getElementById("close").onclick =
+document.getElementById(
+  "close"
+).onclick =
   closeModal;
 
 
-document.getElementById("backdrop").onclick =
-  e=>{
+document.getElementById(
+  "backdrop"
+).onclick =
+  e => {
 
-    if(e.target.id === "backdrop"){
+    if(
+      e.target.id ===
+      "backdrop"
+    ){
 
       closeModal();
 
@@ -1050,16 +1356,20 @@ document.getElementById("backdrop").onclick =
   };
 
 
-document.addEventListener("keydown",e=>{
+document.addEventListener(
+  "keydown",
+  e => {
 
-  if(e.key === "Escape"){
+    if(
+      e.key === "Escape"
+    ){
 
-    closeModal();
+      closeModal();
+
+    }
 
   }
-
-});
-
+);
 
 </script>
 
