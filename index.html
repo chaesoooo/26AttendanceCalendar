@@ -14,7 +14,6 @@
   --border:#e5e7eb;
   --today:#111827;
 
-  /* 출석 / 지각 / 결석 / 휴식 색상 */
   --attend:#D6E58D;
   --late:#F9E1A8;
   --absent:#FCCBE1;
@@ -22,20 +21,20 @@
 }
 
 *{
-  box-sizing:border-box
+  box-sizing:border-box;
 }
 
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;
 }
 
 .app{
   max-width:1180px;
   margin:0 auto;
-  padding:28px 18px 40px
+  padding:28px 18px 40px;
 }
 
 .header{
@@ -43,24 +42,24 @@ body{
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .title h1{
   margin:0;
-  font-size:28px
+  font-size:28px;
 }
 
 .title p{
   margin:5px 0 0;
   color:var(--muted);
-  font-size:14px
+  font-size:14px;
 }
 
 .nav{
   display:flex;
   align-items:center;
-  gap:10px
+  gap:10px;
 }
 
 .nav button{
@@ -70,21 +69,21 @@ body{
   width:42px;
   height:42px;
   font-size:22px;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .month{
   min-width:120px;
   text-align:center;
   font-weight:700;
-  font-size:20px
+  font-size:20px;
 }
 
 .legend{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
-  margin-bottom:14px
+  margin-bottom:14px;
 }
 
 .legend span{
@@ -92,7 +91,7 @@ body{
   border:1px solid var(--border);
   border-radius:999px;
   padding:7px 11px;
-  font-size:13px
+  font-size:13px;
 }
 
 .dot{
@@ -100,228 +99,27 @@ body{
   width:9px;
   height:9px;
   border-radius:50%;
-  margin-right:5px
+  margin-right:5px;
 }
 
-.calendar{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 5px 20px rgba(0,0,0,.04)
-}
 
-.weekdays,.days{
-  display:grid;
-  grid-template-columns:repeat(7,1fr)
-}
+/* =========================================================
+   통계 + 벌금
+   ========================================================= */
 
-.weekdays div{
-  padding:12px;
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
-  background:#fafafa;
-  border-bottom:1px solid var(--border)
-}
-
-.day{
-  min-height:112px;
-  border-right:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:9px;
-  cursor:pointer;
-  background:white
-}
-
-.day:nth-child(7n){
-  border-right:0
-}
-
-.day.empty{
-  background:#fafafa;
-  cursor:default
-}
-
-.date-number{
-  font-weight:700;
-  font-size:14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:27px;
-  height:27px;
-  border-radius:50%
-}
-
-.day.today .date-number{
-  background:var(--today);
-  color:white
-}
-
-.statuses{
+.summary{
   display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin-top:7px
-}
-
-.person-status{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  font-size:11px;
-  min-width:0
-}
-
-.person-status .name{
-  width:44px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  color:#555
-}
-
-.bar{
-  width:12px;
-  height:12px;
-  flex:0 0 12px;
-  border-radius:50%;
-  background:#eef0f2
-}
-
-.bar.attend{
-  background:var(--attend)
-}
-
-.bar.late{
-  background:var(--late)
-}
-
-.bar.absent{
-  background:var(--absent)
-}
-
-.bar.rest{
-  background:var(--rest)
-}
-
-.bar.none{
-  background:#eef0f2
-}
-
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.38);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:10
-}
-
-.modal-backdrop.open{
-  display:flex
-}
-
-.modal{
-  width:min(600px,100%);
-  background:#fff;
-  border-radius:20px;
-  padding:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.2)
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px
-}
-
-.modal h2{
-  margin:0;
-  font-size:21px
-}
-
-.close{
-  border:0;
-  background:#f3f4f6;
-  border-radius:10px;
-  width:36px;
-  height:36px;
-  cursor:pointer;
-  font-size:18px
-}
-
-.person{
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:#fafafa
-}
-
-.people-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px
-}
-
-.person-name{
-  font-weight:700;
-  margin-bottom:9px
-}
-
-.buttons{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px
-}
-
-.buttons button{
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius:10px;
-  padding:9px 4px;
-  font-size:12px;
-  cursor:pointer
-}
-
-.buttons button.selected{
-  color:#202124;
-  border-color:transparent;
-  font-weight:700
-}
-
-.buttons button[data-status="attend"].selected{
-  background:var(--attend)
-}
-
-.buttons button[data-status="late"].selected{
-  background:var(--late)
-}
-
-.buttons button[data-status="absent"].selected{
-  background:var(--absent)
-}
-
-.buttons button[data-status="rest"].selected{
-  background:var(--rest)
-}
-
-.footer{
-  margin-top:14px;
-  color:var(--muted);
-  font-size:12px;
-  text-align:center
+  align-items:stretch;
+  gap:8px;
+  margin:14px 0;
 }
 
 .stats{
   display:flex;
   gap:8px;
-  margin:14px 0;
-  flex-wrap:wrap
+  flex-wrap:wrap;
+  flex:1;
+  margin:0;
 }
 
 .stat{
@@ -329,11 +127,11 @@ body{
   border:1px solid var(--border);
   border-radius:12px;
   padding:9px 12px;
-  font-size:13px
+  font-size:13px;
 }
 
 .stat b{
-  margin-left:4px
+  margin-left:4px;
 }
 
 
@@ -344,42 +142,277 @@ body{
 .fine-section{
   background:#fff;
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  margin:0 0 14px;
+  border-radius:12px;
+  padding:9px 12px;
+  min-width:430px;
 }
 
 .fine-title{
   font-weight:700;
-  font-size:14px;
-  margin-bottom:10px;
+  font-size:13px;
+  margin-bottom:7px;
 }
 
 .fine-list{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 .fine-person{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  background:#fafafa;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:10px 12px;
-  font-size:13px;
+  gap:5px;
+  font-size:12px;
 }
 
 .fine-name{
-  font-weight:600;
+  color:#555;
 }
 
 .fine-amount{
   font-weight:700;
 }
 
+.fine-total{
+  margin-top:7px;
+  padding-top:7px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12px;
+}
+
+.fine-total b{
+  font-size:14px;
+}
+
+
+/* =========================================================
+   달력
+   ========================================================= */
+
+.calendar{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.weekdays,
+.days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+}
+
+.weekdays div{
+  padding:12px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  background:#fafafa;
+  border-bottom:1px solid var(--border);
+}
+
+.day{
+  min-height:112px;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:9px;
+  cursor:pointer;
+  background:white;
+}
+
+.day:nth-child(7n){
+  border-right:0;
+}
+
+.day.empty{
+  background:#fafafa;
+  cursor:default;
+}
+
+.date-number{
+  font-weight:700;
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:27px;
+  height:27px;
+  border-radius:50%;
+}
+
+.day.today .date-number{
+  background:var(--today);
+  color:white;
+}
+
+.statuses{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:7px;
+}
+
+.person-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  min-width:0;
+}
+
+.person-status .name{
+  width:44px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#555;
+}
+
+.bar{
+  width:12px;
+  height:12px;
+  flex:0 0 12px;
+  border-radius:50%;
+  background:#eef0f2;
+}
+
+.bar.attend{
+  background:var(--attend);
+}
+
+.bar.late{
+  background:var(--late);
+}
+
+.bar.absent{
+  background:var(--absent);
+}
+
+.bar.rest{
+  background:var(--rest);
+}
+
+.bar.none{
+  background:#eef0f2;
+}
+
+
+/* =========================================================
+   모달
+   ========================================================= */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.38);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:10;
+}
+
+.modal-backdrop.open{
+  display:flex;
+}
+
+.modal{
+  width:min(600px,100%);
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.modal h2{
+  margin:0;
+  font-size:21px;
+}
+
+.close{
+  border:0;
+  background:#f3f4f6;
+  border-radius:10px;
+  width:36px;
+  height:36px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.person{
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fafafa;
+}
+
+.people-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.person-name{
+  font-weight:700;
+  margin-bottom:9px;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.buttons button{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:10px;
+  padding:9px 4px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.buttons button.selected{
+  color:#202124;
+  border-color:transparent;
+  font-weight:700;
+}
+
+.buttons button[data-status="attend"].selected{
+  background:var(--attend);
+}
+
+.buttons button[data-status="late"].selected{
+  background:var(--late);
+}
+
+.buttons button[data-status="absent"].selected{
+  background:var(--absent);
+}
+
+.buttons button[data-status="rest"].selected{
+  background:var(--rest);
+}
+
+.footer{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
 
 .loading{
   position:fixed;
@@ -392,67 +425,84 @@ body{
   border-radius:999px;
   font-size:12px;
   z-index:20;
-  display:none
+  display:none;
+}
+
+
+/* =========================================================
+   모바일
+   ========================================================= */
+
+@media(max-width:800px){
+
+  .summary{
+    flex-direction:column;
+  }
+
+  .fine-section{
+    min-width:0;
+    width:100%;
+  }
+
 }
 
 @media(max-width:650px){
 
   .app{
-    padding:18px 8px 30px
+    padding:18px 8px 30px;
   }
 
   .title h1{
-    font-size:22px
+    font-size:22px;
   }
 
   .header{
-    align-items:flex-start
+    align-items:flex-start;
   }
 
   .month{
     min-width:90px;
-    font-size:17px
+    font-size:17px;
   }
 
   .day{
     min-height:82px;
-    padding:6px
+    padding:6px;
   }
 
   .statuses{
-    gap:3px
+    gap:3px;
   }
 
   .person-status .name{
     width:30px;
-    font-size:9px
+    font-size:9px;
   }
 
   .bar{
     width:9px;
     height:9px;
-    flex-basis:9px
+    flex-basis:9px;
   }
 
   .people-grid{
-    grid-template-columns:repeat(2,1fr)
+    grid-template-columns:repeat(2,1fr);
   }
 
   .buttons{
-    grid-template-columns:repeat(4,1fr)
+    grid-template-columns:repeat(4,1fr);
   }
 
   .buttons button{
     font-size:10px;
-    padding:8px 2px
+    padding:8px 2px;
   }
 
   .fine-list{
-    grid-template-columns:repeat(2,1fr);
+    gap:8px 14px;
   }
 
   .fine-person{
-    padding:9px 8px;
     font-size:11px;
   }
 
@@ -460,30 +510,53 @@ body{
 </style>
 </head>
 
+
 <body>
 
 <div class="loading" id="loading">
   데이터 불러오는 중...
 </div>
 
+
 <div class="app">
+
+  <!-- =====================================================
+       헤더
+       ===================================================== -->
 
   <div class="header">
 
     <div class="title">
-      <h1>2026 출석 캘린더</h1>
-      <p>날짜를 클릭하여 4명의 상태를 기록하세요.</p>
+
+      <h1>
+        2026 출석 캘린더
+      </h1>
+
+      <p>
+        날짜를 클릭하여 4명의 상태를 기록하세요.
+      </p>
+
     </div>
+
 
     <div class="nav">
 
-      <button id="prev" aria-label="이전 달">
+      <button
+        id="prev"
+        aria-label="이전 달"
+      >
         ‹
       </button>
 
-      <div class="month" id="monthLabel"></div>
+      <div
+        class="month"
+        id="monthLabel"
+      ></div>
 
-      <button id="next" aria-label="다음 달">
+      <button
+        id="next"
+        aria-label="다음 달"
+      >
         ›
       </button>
 
@@ -492,52 +565,90 @@ body{
   </div>
 
 
-  <!-- 범례 -->
+  <!-- =====================================================
+       범례
+       ===================================================== -->
 
   <div class="legend">
 
     <span>
-      <i class="dot" style="background:var(--attend)"></i>
+      <i
+        class="dot"
+        style="background:var(--attend)"
+      ></i>
       출석
     </span>
 
     <span>
-      <i class="dot" style="background:var(--late)"></i>
+      <i
+        class="dot"
+        style="background:var(--late)"
+      ></i>
       지각
     </span>
 
     <span>
-      <i class="dot" style="background:var(--absent)"></i>
+      <i
+        class="dot"
+        style="background:var(--absent)"
+      ></i>
       결석
     </span>
 
     <span>
-      <i class="dot" style="background:var(--rest)"></i>
+      <i
+        class="dot"
+        style="background:var(--rest)"
+      ></i>
       휴식
     </span>
 
   </div>
 
 
-  <!-- 통계 -->
+  <!-- =====================================================
+       통계 + 누적 벌금
+       ===================================================== -->
 
-  <div class="stats" id="stats"></div>
+  <div class="summary">
+
+    <div
+      class="stats"
+      id="stats"
+    ></div>
 
 
-  <!-- 누적 벌금 -->
+    <div class="fine-section">
 
-  <div class="fine-section">
+      <div class="fine-title">
+        누적 벌금
+      </div>
 
-    <div class="fine-title">
-      누적 벌금
+      <div
+        class="fine-list"
+        id="fineList"
+      ></div>
+
+      <div class="fine-total">
+
+        <span>
+          총합
+        </span>
+
+        <b id="fineTotal">
+          0원
+        </b>
+
+      </div>
+
     </div>
-
-    <div class="fine-list" id="fineList"></div>
 
   </div>
 
 
-  <!-- 달력 -->
+  <!-- =====================================================
+       달력
+       ===================================================== -->
 
   <div class="calendar">
 
@@ -553,7 +664,11 @@ body{
 
     </div>
 
-    <div class="days" id="days"></div>
+
+    <div
+      class="days"
+      id="days"
+    ></div>
 
   </div>
 
@@ -565,9 +680,14 @@ body{
 </div>
 
 
-<!-- 출석 입력 모달 -->
+<!-- =======================================================
+     출석 입력 모달
+     ======================================================= -->
 
-<div class="modal-backdrop" id="backdrop">
+<div
+  class="modal-backdrop"
+  id="backdrop"
+>
 
   <div class="modal">
 
@@ -575,13 +695,20 @@ body{
 
       <h2 id="modalTitle"></h2>
 
-      <button class="close" id="close">
+      <button
+        class="close"
+        id="close"
+      >
         ×
       </button>
 
     </div>
 
-    <div id="people" class="people-grid"></div>
+
+    <div
+      id="people"
+      class="people-grid"
+    ></div>
 
   </div>
 
@@ -630,14 +757,17 @@ const firebaseConfig = {
 
   databaseURL:
     "https://attendancecalendar-44661-default-rtdb.firebaseio.com"
+
 };
 
 
 const app =
   initializeApp(firebaseConfig);
 
+
 const db =
   getDatabase(app);
+
 
 const attendanceRef =
   ref(db, "attendance2026");
@@ -673,11 +803,22 @@ const STATUSES = [
 ];
 
 
+/*
+  JavaScript의 월은 0부터 시작
+
+  8  = 9월
+  9  = 10월
+  10 = 11월
+  11 = 12월
+*/
+
 const MONTHS = [
+
   8,
   9,
   10,
   11
+
 ];
 
 
@@ -693,25 +834,33 @@ let selectedDate = null;
    ========================================================= */
 
 const loading =
-  document.getElementById("loading");
+  document.getElementById(
+    "loading"
+  );
 
-loading.style.display = "block";
+
+loading.style.display =
+  "block";
 
 
-onValue(attendanceRef, (snapshot) => {
+onValue(
+  attendanceRef,
+  (snapshot) => {
 
-  data =
-    snapshot.val() || {};
+    data =
+      snapshot.val() || {};
 
-  loading.style.display = "none";
+    loading.style.display =
+      "none";
 
-  render();
+    render();
 
-});
+  }
+);
 
 
 /* =========================================================
-   Firebase에 데이터 저장
+   Firebase 데이터 저장
    ========================================================= */
 
 async function save(){
@@ -723,7 +872,9 @@ async function save(){
       data
     );
 
-  }catch(error){
+  }
+
+  catch(error){
 
     console.error(
       "저장 오류:",
@@ -744,7 +895,11 @@ async function save(){
    날짜 Key
    ========================================================= */
 
-function key(y,m,d){
+function key(
+  y,
+  m,
+  d
+){
 
   return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 
@@ -753,7 +908,9 @@ function key(y,m,d){
 
 function currentMonth(){
 
-  return MONTHS[monthIndex];
+  return MONTHS[
+    monthIndex
+  ];
 
 }
 
@@ -767,6 +924,7 @@ function render(){
   const month =
     currentMonth();
 
+
   const year =
     2026;
 
@@ -778,9 +936,13 @@ function render(){
 
 
   const days =
-    document.getElementById("days");
+    document.getElementById(
+      "days"
+    );
 
-  days.innerHTML = "";
+
+  days.innerHTML =
+    "";
 
 
   const first =
@@ -799,7 +961,9 @@ function render(){
     ).getDate();
 
 
-  /* 월 시작 전 빈 칸 */
+  /* -------------------------------------------------------
+     월 시작 전 빈 칸
+     ------------------------------------------------------- */
 
   for(
     let i = 0;
@@ -807,18 +971,26 @@ function render(){
     i++
   ){
 
-    const e =
-      document.createElement("div");
+    const empty =
+      document.createElement(
+        "div"
+      );
 
-    e.className =
+
+    empty.className =
       "day empty";
 
-    days.appendChild(e);
+
+    days.appendChild(
+      empty
+    );
 
   }
 
 
-  /* 날짜 생성 */
+  /* -------------------------------------------------------
+     날짜 생성
+     ------------------------------------------------------- */
 
   for(
     let d = 1;
@@ -835,7 +1007,9 @@ function render(){
 
 
     const cell =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
 
     const today =
@@ -858,11 +1032,13 @@ function render(){
 
 
     cell.innerHTML = `
+
       <div class="date-number">
         ${d}
       </div>
 
       <div class="statuses"></div>
+
     `;
 
 
@@ -873,10 +1049,10 @@ function render(){
 
 
     PEOPLE.forEach(
-      p => {
+      person => {
 
-        const s =
-          data[k]?.[p] ||
+        const status =
+          data[k]?.[person] ||
           "none";
 
 
@@ -891,11 +1067,13 @@ function render(){
 
 
         row.innerHTML = `
+
           <span class="name">
-            ${p}
+            ${person}
           </span>
 
-          <span class="bar ${s}"></span>
+          <span class="bar ${status}"></span>
+
         `;
 
 
@@ -932,10 +1110,11 @@ function render(){
 
 function renderStats(){
 
-  const el =
+  const statsElement =
     document.getElementById(
       "stats"
     );
+
 
   const fineList =
     document.getElementById(
@@ -943,9 +1122,15 @@ function renderStats(){
     );
 
 
-  /* -----------------------------------------
+  const fineTotal =
+    document.getElementById(
+      "fineTotal"
+    );
+
+
+  /* =======================================================
      전체 출석 상태 통계
-     ----------------------------------------- */
+     ======================================================= */
 
   const counts = {
 
@@ -964,13 +1149,14 @@ function renderStats(){
     .forEach(day => {
 
       Object.values(day)
-        .forEach(s => {
+        .forEach(status => {
 
           if(
-            counts[s] !== undefined
+            counts[status]
+            !== undefined
           ){
 
-            counts[s]++;
+            counts[status]++;
 
           }
 
@@ -979,18 +1165,23 @@ function renderStats(){
     });
 
 
-  el.innerHTML =
+  statsElement.innerHTML =
     STATUSES
       .map(
-        ([s,n]) => {
+        ([status,name]) => {
 
           return `
+
             <div class="stat">
-              ${n}
+
+              ${name}
+
               <b>
-                ${counts[s]}
+                ${counts[status]}
               </b>
+
             </div>
+
           `;
 
         }
@@ -998,12 +1189,15 @@ function renderStats(){
       .join("");
 
 
-  /* -----------------------------------------
+  /* =======================================================
      사람별 누적 벌금
      
      지각 1회 = 1,000원
      결석 1회 = 2,500원
-     ----------------------------------------- */
+     ======================================================= */
+
+  let totalFine = 0;
+
 
   fineList.innerHTML =
     PEOPLE
@@ -1047,7 +1241,12 @@ function renderStats(){
             (absentCount * 2500);
 
 
+          totalFine +=
+            fine;
+
+
           return `
+
             <div class="fine-person">
 
               <span class="fine-name">
@@ -1059,11 +1258,20 @@ function renderStats(){
               </span>
 
             </div>
+
           `;
 
         }
       )
       .join("");
+
+
+  /* =======================================================
+     네 사람의 벌금 총합
+     ======================================================= */
+
+  fineTotal.textContent =
+    `${totalFine.toLocaleString()}원`;
 
 }
 
@@ -1072,7 +1280,10 @@ function renderStats(){
    출석 입력 모달
    ========================================================= */
 
-function openModal(k,d){
+function openModal(
+  k,
+  d
+){
 
   selectedDate =
     k;
@@ -1084,13 +1295,13 @@ function openModal(k,d){
     `2026년 ${currentMonth()+1}월 ${d}일`;
 
 
-  const people =
+  const peopleElement =
     document.getElementById(
       "people"
     );
 
 
-  people.innerHTML =
+  peopleElement.innerHTML =
     "";
 
 
@@ -1102,7 +1313,7 @@ function openModal(k,d){
 
 
   PEOPLE.forEach(
-    p => {
+    person => {
 
       const wrap =
         document.createElement(
@@ -1115,15 +1326,18 @@ function openModal(k,d){
 
 
       const current =
-        data[k][p] || "";
+        data[k][person] ||
+        "";
 
 
       wrap.innerHTML = `
+
         <div class="person-name">
-          ${p}
+          ${person}
         </div>
 
         <div class="buttons"></div>
+
       `;
 
 
@@ -1134,44 +1348,46 @@ function openModal(k,d){
 
 
       STATUSES.forEach(
-        ([s,label]) => {
+        ([status,label]) => {
 
-          const b =
+          const button =
             document.createElement(
               "button"
             );
 
 
-          b.dataset.status =
-            s;
+          button.dataset.status =
+            status;
 
-          b.textContent =
+
+          button.textContent =
             label;
 
 
           if(
-            current === s
+            current === status
           ){
 
-            b.classList.add(
+            button.classList.add(
               "selected"
             );
 
           }
 
 
-          b.onclick =
+          button.onclick =
             async () => {
 
-              /* --------------------------------
-                 같은 버튼을 다시 누르면 취소
-                 -------------------------------- */
+              /* -------------------------------------------
+                 같은 상태를 다시 누르면 취소
+                 ------------------------------------------- */
 
               if(
-                data[k]?.[p] === s
+                data[k]?.[person]
+                === status
               ){
 
-                delete data[k][p];
+                delete data[k][person];
 
 
                 if(
@@ -1188,9 +1404,9 @@ function openModal(k,d){
               }
 
 
-              /* --------------------------------
+              /* -------------------------------------------
                  다른 상태를 누르면 변경
-                 -------------------------------- */
+                 ------------------------------------------- */
 
               else{
 
@@ -1200,8 +1416,9 @@ function openModal(k,d){
 
                 }
 
-                data[k][p] =
-                  s;
+
+                data[k][person] =
+                  status;
 
               }
 
@@ -1216,21 +1433,23 @@ function openModal(k,d){
               [
                 ...buttons.children
               ].forEach(
-                x => {
+                buttonElement => {
 
-                  x.classList.remove(
-                    "selected"
-                  );
+                  buttonElement.classList
+                    .remove(
+                      "selected"
+                    );
 
                 }
               );
 
 
               if(
-                data[k]?.[p] === s
+                data[k]?.[person]
+                === status
               ){
 
-                b.classList.add(
+                button.classList.add(
                   "selected"
                 );
 
@@ -1245,14 +1464,14 @@ function openModal(k,d){
 
 
           buttons.appendChild(
-            b
+            button
           );
 
         }
       );
 
 
-      people.appendChild(
+      peopleElement.appendChild(
         wrap
       );
 
@@ -1285,6 +1504,7 @@ function closeModal(){
       "open"
     );
 
+
   selectedDate =
     null;
 
@@ -1292,41 +1512,47 @@ function closeModal(){
 
 
 /* =========================================================
-   이전 / 다음 달
+   이전 달
    ========================================================= */
 
 document.getElementById(
   "prev"
-).onclick = () => {
+).onclick =
+  () => {
 
-  if(
-    monthIndex > 0
-  ){
+    if(
+      monthIndex > 0
+    ){
 
-    monthIndex--;
+      monthIndex--;
 
-    render();
+      render();
 
-  }
+    }
 
-};
+  };
 
+
+/* =========================================================
+   다음 달
+   ========================================================= */
 
 document.getElementById(
   "next"
-).onclick = () => {
+).onclick =
+  () => {
 
-  if(
-    monthIndex < 3
-  ){
+    if(
+      monthIndex < 3
+    ){
 
-    monthIndex++;
+      monthIndex++;
 
-    render();
+      render();
 
-  }
+    }
 
-};
+  };
 
 
 /* =========================================================
@@ -1339,13 +1565,17 @@ document.getElementById(
   closeModal;
 
 
+/* =========================================================
+   바깥 영역 클릭 → 닫기
+   ========================================================= */
+
 document.getElementById(
   "backdrop"
 ).onclick =
-  e => {
+  event => {
 
     if(
-      e.target.id ===
+      event.target.id ===
       "backdrop"
     ){
 
@@ -1356,12 +1586,16 @@ document.getElementById(
   };
 
 
+/* =========================================================
+   ESC → 닫기
+   ========================================================= */
+
 document.addEventListener(
   "keydown",
-  e => {
+  event => {
 
     if(
-      e.key === "Escape"
+      event.key === "Escape"
     ){
 
       closeModal();
