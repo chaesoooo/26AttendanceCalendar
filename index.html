@@ -4,77 +4,406 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 출석 캘린더</title>
+
 <style>
 :root {
-  --bg:#f5f6f8; --card:#fff; --text:#202124; --muted:#777;
-  --border:#e5e7eb; --today:#111827;
-  --attend:#FF6F91; --late:#FF9671; --absent-unexcused:#FFC75F;
-  --absent:#F9F871; --rest:#D65DB1;
+  --bg:#f5f6f8;
+  --card:#fff;
+  --text:#202124;
+  --muted:#777;
+  --border:#e5e7eb;
+  --today:#111827;
+  --attend:#FF6F91;
+  --late:#FF9671;
+  --absent-unexcused:#FFC75F;
+  --absent:#F9F871;
+  --rest:#D65DB1;
 }
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif}
-.app{max-width:1180px;margin:0 auto;padding:28px 18px 40px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
-.title h1{margin:0;font-size:28px}
-.title p{margin:5px 0 0;color:var(--muted);font-size:14px}
-.nav{display:flex;align-items:center;gap:10px}
-.nav button{border:1px solid var(--border);background:white;border-radius:12px;width:42px;height:42px;font-size:22px;cursor:pointer}
-.month{min-width:120px;text-align:center;font-weight:700;font-size:20px}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.legend span{background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 11px;font-size:13px}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
-.calendar{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.04)}
-.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr)}
-.weekdays div{padding:12px;text-align:center;font-size:13px;color:var(--muted);background:#fafafa;border-bottom:1px solid var(--border)}
-.day{min-height:112px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px;cursor:pointer;background:white}
-.day:nth-child(7n){border-right:0}
-.day.empty{background:#fafafa;cursor:default}
-.date-number{font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:50%}
-.day.today .date-number{background:var(--today);color:white}
-.statuses{display:flex;flex-direction:column;gap:4px;margin-top:7px}
-.person-status{display:flex;align-items:center;gap:7px;font-size:11px;min-width:0}
-.person-status .name{width:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#555}
-.bar{width:12px;height:12px;flex:0 0 12px;border-radius:50%;background:#eef0f2}
-.bar.attend{background:var(--attend)} .bar.late{background:var(--late)}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif
+}
+
+.app{
+  max-width:1180px;
+  margin:0 auto;
+  padding:28px 18px 40px
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px
+}
+
+.title h1{
+  margin:0;
+  font-size:28px
+}
+
+.title p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:14px
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.nav button{
+  border:1px solid var(--border);
+  background:white;
+  border-radius:12px;
+  width:42px;
+  height:42px;
+  font-size:22px;
+  cursor:pointer
+}
+
+.month{
+  min-width:120px;
+  text-align:center;
+  font-weight:700;
+  font-size:20px
+}
+
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px
+}
+
+.legend span{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:13px
+}
+
+.dot{
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  margin-right:5px
+}
+
+.calendar{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,.04)
+}
+
+.weekdays,.days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr)
+}
+
+.weekdays div{
+  padding:12px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  background:#fafafa;
+  border-bottom:1px solid var(--border)
+}
+
+.day{
+  min-height:112px;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:9px;
+  cursor:pointer;
+  background:white
+}
+
+.day:nth-child(7n){
+  border-right:0
+}
+
+.day.empty{
+  background:#fafafa;
+  cursor:default
+}
+
+.date-number{
+  font-weight:700;
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:27px;
+  height:27px;
+  border-radius:50%
+}
+
+.day.today .date-number{
+  background:var(--today);
+  color:white
+}
+
+.statuses{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:7px
+}
+
+.person-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  min-width:0
+}
+
+.person-status .name{
+  width:44px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#555
+}
+
+.bar{
+  width:12px;
+  height:12px;
+  flex:0 0 12px;
+  border-radius:50%;
+  background:#eef0f2
+}
+
+.bar.attend{background:var(--attend)}
+.bar.late{background:var(--late)}
 .bar.absent-unexcused{background:var(--absent-unexcused)}
-.bar.absent{background:var(--absent)} .bar.rest{background:var(--rest)}
+.bar.absent{background:var(--absent)}
+.bar.rest{background:var(--rest)}
 .bar.none{background:#eef0f2}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);display:none;align-items:center;justify-content:center;padding:18px;z-index:10}
-.modal-backdrop.open{display:flex}
-.modal{width:min(600px,100%);background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.modal h2{margin:0;font-size:21px}
-.close{border:0;background:#f3f4f6;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:18px}
-.person{padding:13px;border:1px solid var(--border);border-radius:14px;background:#fafafa}
-.people-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.person:first-child{border-top:1px solid var(--border)}
-.person-name{font-weight:700;margin-bottom:9px}
-.buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-.buttons button{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 4px;font-size:12px;cursor:pointer}
-.buttons button.selected{color:#fff;border-color:transparent;font-weight:700}
-.buttons button[data-status="attend"].selected{background:var(--attend)}
-.buttons button[data-status="late"].selected{background:var(--late)}
-.buttons button[data-status="absent-unexcused"].selected{background:#eab308}
-.buttons button[data-status="absent"].selected{background:var(--absent)}
-.buttons button[data-status="rest"].selected{background:var(--rest)}
-.footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
-.stats{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
-.stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:9px 12px;font-size:13px}
-.stat b{margin-left:4px}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.38);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:10
+}
+
+.modal-backdrop.open{
+  display:flex
+}
+
+.modal{
+  width:min(600px,100%);
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2)
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px
+}
+
+.modal h2{
+  margin:0;
+  font-size:21px
+}
+
+.close{
+  border:0;
+  background:#f3f4f6;
+  border-radius:10px;
+  width:36px;
+  height:36px;
+  cursor:pointer;
+  font-size:18px
+}
+
+.person{
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fafafa
+}
+
+.people-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px
+}
+
+.person-name{
+  font-weight:700;
+  margin-bottom:9px
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px
+}
+
+.buttons button{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:10px;
+  padding:9px 4px;
+  font-size:12px;
+  cursor:pointer
+}
+
+.buttons button.selected{
+  color:#fff;
+  border-color:transparent;
+  font-weight:700
+}
+
+.buttons button[data-status="attend"].selected{
+  background:var(--attend)
+}
+
+.buttons button[data-status="late"].selected{
+  background:var(--late)
+}
+
+.buttons button[data-status="absent-unexcused"].selected{
+  background:#eab308
+}
+
+.buttons button[data-status="absent"].selected{
+  background:var(--absent)
+}
+
+.buttons button[data-status="rest"].selected{
+  background:var(--rest)
+}
+
+.footer{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center
+}
+
+.stats{
+  display:flex;
+  gap:8px;
+  margin:14px 0;
+  flex-wrap:wrap
+}
+
+.stat{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:9px 12px;
+  font-size:13px
+}
+
+.stat b{
+  margin-left:4px
+}
+
+.loading{
+  position:fixed;
+  left:50%;
+  top:20px;
+  transform:translateX(-50%);
+  background:#202124;
+  color:white;
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:12px;
+  z-index:20;
+  display:none
+}
+
 @media(max-width:650px){
-  .app{padding:18px 8px 30px}.title h1{font-size:22px}
-  .header{align-items:flex-start}.month{min-width:90px;font-size:17px}
-  .day{min-height:82px;padding:6px}.statuses{gap:3px}.person-status .name{width:30px;font-size:9px}.bar{width:9px;height:9px;flex-basis:9px}
-  .people-grid{grid-template-columns:repeat(2,1fr)}.buttons{grid-template-columns:repeat(5,1fr)}.buttons button{font-size:10px;padding:8px 2px}
+  .app{
+    padding:18px 8px 30px
+  }
+
+  .title h1{
+    font-size:22px
+  }
+
+  .header{
+    align-items:flex-start
+  }
+
+  .month{
+    min-width:90px;
+    font-size:17px
+  }
+
+  .day{
+    min-height:82px;
+    padding:6px
+  }
+
+  .statuses{
+    gap:3px
+  }
+
+  .person-status .name{
+    width:30px;
+    font-size:9px
+  }
+
+  .bar{
+    width:9px;
+    height:9px;
+    flex-basis:9px
+  }
+
+  .people-grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .buttons{
+    grid-template-columns:repeat(5,1fr)
+  }
+
+  .buttons button{
+    font-size:10px;
+    padding:8px 2px
+  }
 }
 </style>
 </head>
+
 <body>
+
+<div class="loading" id="loading">데이터 불러오는 중...</div>
+
 <div class="app">
+
   <div class="header">
     <div class="title">
       <h1>2026 출석 캘린더</h1>
       <p>날짜를 클릭하여 4명의 상태를 기록하세요.</p>
     </div>
+
     <div class="nav">
       <button id="prev" aria-label="이전 달">‹</button>
       <div class="month" id="monthLabel"></div>
@@ -94,111 +423,607 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 
   <div class="calendar">
     <div class="weekdays">
-      <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+      <div>일</div>
+      <div>월</div>
+      <div>화</div>
+      <div>수</div>
+      <div>목</div>
+      <div>금</div>
+      <div>토</div>
     </div>
+
     <div class="days" id="days"></div>
   </div>
-  <div class="footer">기록은 이 브라우저에 자동 저장됩니다.</div>
+
+  <div class="footer">
+    출석 기록은 온라인으로 저장되며 모든 사용자에게 공유됩니다.
+  </div>
+
 </div>
 
 <div class="modal-backdrop" id="backdrop">
+
   <div class="modal">
+
     <div class="modal-head">
       <h2 id="modalTitle"></h2>
       <button class="close" id="close">×</button>
     </div>
+
     <div id="people" class="people-grid"></div>
+
   </div>
+
 </div>
 
-<script>
-const PEOPLE = ["정채주","조소영","엄영우","이은지"];
-const STATUSES = [
-  ["attend","출석"],["late","지각"],["absent-unexcused","무단"],["absent","결석"],["rest","휴식"]
+
+<script type="module">
+
+/* =========================================================
+   Firebase
+   ========================================================= */
+
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  onValue,
+  update
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCqynccAXXMU4OgIRxkhPSFcbjsplQucr8",
+
+  authDomain: "attendancecalendar-44661.firebaseapp.com",
+
+  projectId: "attendancecalendar-44661",
+
+  storageBucket: "attendancecalendar-44661.firebasestorage.app",
+
+  messagingSenderId: "471894956788",
+
+  appId: "1:471894956788:web:5532207c39d67766f3dca1",
+
+  measurementId: "G-VTJY1QPVTX",
+
+  /*
+   * Firebase Realtime Database 주소를 입력하세요.
+   * Firebase Console → Realtime Database → Data
+   * 상단에 표시되는 주소를 넣으면 됩니다.
+   */
+  databaseURL: "https://attendancecalendar-44661-default-rtdb.firebaseio.com"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+const attendanceRef = ref(db, "attendance2026");
+
+
+/* =========================================================
+   기본 설정
+   ========================================================= */
+
+const PEOPLE = [
+  "정채주",
+  "조소영",
+  "엄영우",
+  "이은지"
 ];
-const MONTHS = [8,9,10,11]; // Sep-Dec, JS zero-based
+
+const STATUSES = [
+  ["attend","출석"],
+  ["late","지각"],
+  ["absent-unexcused","무단"],
+  ["absent","결석"],
+  ["rest","휴식"]
+];
+
+
+/*
+ * 8 = 9월
+ * 9 = 10월
+ * 10 = 11월
+ * 11 = 12월
+ */
+const MONTHS = [8,9,10,11];
+
 let monthIndex = 0;
-let data = JSON.parse(localStorage.getItem("attendance2026") || "{}");
+
+let data = {};
+
 let selectedDate = null;
 
-function save(){ localStorage.setItem("attendance2026", JSON.stringify(data)); }
-function key(y,m,d){ return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`; }
-function currentMonth(){ return MONTHS[monthIndex]; }
+
+/* =========================================================
+   Firebase 데이터 불러오기
+   ========================================================= */
+
+const loading = document.getElementById("loading");
+
+loading.style.display = "block";
+
+
+/*
+ * Firebase 데이터가 변경될 때마다 자동 실행됩니다.
+ *
+ * 따라서:
+ *
+ * 나 → 출석 클릭
+ *       ↓
+ * Firebase 데이터 변경
+ *       ↓
+ * 모든 사람의 브라우저에서 onValue 실행
+ *       ↓
+ * 캘린더 자동 업데이트
+ */
+onValue(attendanceRef, (snapshot) => {
+
+  data = snapshot.val() || {};
+
+  loading.style.display = "none";
+
+  render();
+
+});
+
+
+/* =========================================================
+   Firebase에 데이터 저장
+   ========================================================= */
+
+async function save(){
+
+  try{
+
+    await update(attendanceRef, data);
+
+  }catch(error){
+
+    console.error("저장 오류:", error);
+
+    alert(
+      "출석 기록을 저장하지 못했습니다.\n\n" +
+      "Firebase 설정 또는 Database Rules를 확인해주세요."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   날짜 Key
+   ========================================================= */
+
+function key(y,m,d){
+
+  return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+
+}
+
+
+function currentMonth(){
+
+  return MONTHS[monthIndex];
+
+}
+
+
+/* =========================================================
+   달력 렌더링
+   ========================================================= */
 
 function render(){
-  const month = currentMonth(), year=2026;
-  document.getElementById("monthLabel").textContent = `${year}년 ${month+1}월`;
+
+  const month = currentMonth();
+
+  const year = 2026;
+
+  document.getElementById("monthLabel").textContent =
+    `${year}년 ${month+1}월`;
+
+
   const days = document.getElementById("days");
-  days.innerHTML="";
-  const first = new Date(year,month,1).getDay();
-  const last = new Date(year,month+1,0).getDate();
+
+  days.innerHTML = "";
+
+
+  const first =
+    new Date(year,month,1).getDay();
+
+
+  const last =
+    new Date(year,month+1,0).getDate();
+
+
+  /*
+   * 월 시작 전 빈 칸
+   */
+
   for(let i=0;i<first;i++){
-    const e=document.createElement("div"); e.className="day empty"; days.appendChild(e);
+
+    const e =
+      document.createElement("div");
+
+    e.className = "day empty";
+
+    days.appendChild(e);
+
   }
+
+
+  /*
+   * 날짜 생성
+   */
+
   for(let d=1;d<=last;d++){
-    const k=key(year,month,d), cell=document.createElement("div");
-    const today = new Date();
-    const isToday = today.getFullYear()===year && today.getMonth()===month && today.getDate()===d;
-    cell.className="day"+(isToday?" today":"");
-    cell.innerHTML=`<div class="date-number">${d}</div><div class="statuses"></div>`;
-    const statuses=cell.querySelector(".statuses");
+
+    const k =
+      key(year,month,d);
+
+
+    const cell =
+      document.createElement("div");
+
+
+    const today =
+      new Date();
+
+
+    const isToday =
+      today.getFullYear() === year &&
+      today.getMonth() === month &&
+      today.getDate() === d;
+
+
+    cell.className =
+      "day" + (isToday ? " today" : "");
+
+
+    cell.innerHTML = `
+      <div class="date-number">${d}</div>
+      <div class="statuses"></div>
+    `;
+
+
+    const statuses =
+      cell.querySelector(".statuses");
+
+
     PEOPLE.forEach(p=>{
-      const s=data[k]?.[p] || "none";
-      const row=document.createElement("div"); row.className="person-status";
-      row.innerHTML=`<span class="name">${p}</span><span class="bar ${s}"></span>`;
+
+      const s =
+        data[k]?.[p] || "none";
+
+
+      const row =
+        document.createElement("div");
+
+
+      row.className =
+        "person-status";
+
+
+      row.innerHTML = `
+        <span class="name">${p}</span>
+        <span class="bar ${s}"></span>
+      `;
+
+
       statuses.appendChild(row);
+
     });
-    cell.onclick=()=>openModal(k,d);
+
+
+    cell.onclick =
+      () => openModal(k,d);
+
+
     days.appendChild(cell);
+
   }
+
+
   renderStats();
+
 }
+
+
+/* =========================================================
+   통계
+   ========================================================= */
+
 function renderStats(){
-  const el=document.getElementById("stats");
-  const counts={attend:0,late:0,"absent-unexcused":0,absent:0,rest:0};
-  Object.values(data).forEach(day=>Object.values(day).forEach(s=>{if(counts[s]!==undefined)counts[s]++}));
-  el.innerHTML=STATUSES.map(([s,n])=>`<div class="stat">${n} <b>${counts[s]}</b></div>`).join("");
-}
-function openModal(k,d){
-  selectedDate=k;
-  document.getElementById("modalTitle").textContent=`2026년 ${currentMonth()+1}월 ${d}일`;
-  const people=document.getElementById("people"); people.innerHTML="";
-  if(!data[k]) data[k]={};
-  PEOPLE.forEach(p=>{
-    const wrap=document.createElement("div"); wrap.className="person";
-    const current=data[k][p] || "";
-    wrap.innerHTML=`<div class="person-name">${p}</div><div class="buttons"></div>`;
-    const buttons=wrap.querySelector(".buttons");
-    STATUSES.forEach(([s,label])=>{
-      const b=document.createElement("button"); b.dataset.status=s; b.textContent=label;
-      if(current===s)b.classList.add("selected");
-      b.onclick=()=>{
-        if(data[k][p] === s){
-          delete data[k][p];
-          if(Object.keys(data[k]).length === 0) delete data[k];
-          save();
-          b.classList.remove("selected");
-        } else {
-          data[k][p]=s;
-          save();
-          [...buttons.children].forEach(x=>x.classList.remove("selected"));
-          b.classList.add("selected");
-        }
-        render();
-      };
-      buttons.appendChild(b);
+
+  const el =
+    document.getElementById("stats");
+
+
+  const counts = {
+
+    attend:0,
+
+    late:0,
+
+    "absent-unexcused":0,
+
+    absent:0,
+
+    rest:0
+
+  };
+
+
+  Object.values(data).forEach(day=>{
+
+    Object.values(day).forEach(s=>{
+
+      if(counts[s] !== undefined){
+
+        counts[s]++;
+
+      }
+
     });
-    people.appendChild(wrap);
+
   });
-  document.getElementById("backdrop").classList.add("open");
+
+
+  el.innerHTML =
+    STATUSES.map(([s,n])=>{
+
+      return `
+        <div class="stat">
+          ${n}
+          <b>${counts[s]}</b>
+        </div>
+      `;
+
+    }).join("");
+
 }
-function closeModal(){document.getElementById("backdrop").classList.remove("open");selectedDate=null}
-document.getElementById("prev").onclick=()=>{if(monthIndex>0){monthIndex--;render()}};
-document.getElementById("next").onclick=()=>{if(monthIndex<3){monthIndex++;render()}};
-document.getElementById("close").onclick=closeModal;
-document.getElementById("backdrop").onclick=e=>{if(e.target.id==="backdrop")closeModal()};
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-render();
+
+
+/* =========================================================
+   출석 입력 모달
+   ========================================================= */
+
+function openModal(k,d){
+
+  selectedDate = k;
+
+
+  document.getElementById("modalTitle").textContent =
+    `2026년 ${currentMonth()+1}월 ${d}일`;
+
+
+  const people =
+    document.getElementById("people");
+
+
+  people.innerHTML = "";
+
+
+  if(!data[k]){
+
+    data[k] = {};
+
+  }
+
+
+  PEOPLE.forEach(p=>{
+
+    const wrap =
+      document.createElement("div");
+
+
+    wrap.className =
+      "person";
+
+
+    const current =
+      data[k][p] || "";
+
+
+    wrap.innerHTML = `
+      <div class="person-name">${p}</div>
+      <div class="buttons"></div>
+    `;
+
+
+    const buttons =
+      wrap.querySelector(".buttons");
+
+
+    STATUSES.forEach(([s,label])=>{
+
+      const b =
+        document.createElement("button");
+
+
+      b.dataset.status = s;
+
+      b.textContent = label;
+
+
+      if(current === s){
+
+        b.classList.add("selected");
+
+      }
+
+
+      b.onclick = async ()=>{
+
+        /*
+         * 같은 버튼을 다시 누르면 취소
+         */
+
+        if(data[k]?.[p] === s){
+
+          delete data[k][p];
+
+
+          if(
+            data[k] &&
+            Object.keys(data[k]).length === 0
+          ){
+
+            delete data[k];
+
+          }
+
+
+        }
+
+        /*
+         * 다른 상태를 누르면 변경
+         */
+
+        else{
+
+          if(!data[k]){
+
+            data[k] = {};
+
+          }
+
+          data[k][p] = s;
+
+        }
+
+
+        /*
+         * Firebase 저장
+         */
+
+        await save();
+
+
+        /*
+         * 모달 버튼 상태 업데이트
+         */
+
+        [...buttons.children].forEach(x=>{
+
+          x.classList.remove("selected");
+
+        });
+
+
+        if(data[k]?.[p] === s){
+
+          b.classList.add("selected");
+
+        }
+
+
+        render();
+
+      };
+
+
+      buttons.appendChild(b);
+
+    });
+
+
+    people.appendChild(wrap);
+
+  });
+
+
+  document
+    .getElementById("backdrop")
+    .classList.add("open");
+
+}
+
+
+/* =========================================================
+   모달 닫기
+   ========================================================= */
+
+function closeModal(){
+
+  document
+    .getElementById("backdrop")
+    .classList.remove("open");
+
+  selectedDate = null;
+
+}
+
+
+/* =========================================================
+   이전 / 다음 달
+   ========================================================= */
+
+document.getElementById("prev").onclick = ()=>{
+
+  if(monthIndex > 0){
+
+    monthIndex--;
+
+    render();
+
+  }
+
+};
+
+
+document.getElementById("next").onclick = ()=>{
+
+  if(monthIndex < 3){
+
+    monthIndex++;
+
+    render();
+
+  }
+
+};
+
+
+/* =========================================================
+   닫기 버튼
+   ========================================================= */
+
+document.getElementById("close").onclick =
+  closeModal;
+
+
+document.getElementById("backdrop").onclick =
+  e=>{
+
+    if(e.target.id === "backdrop"){
+
+      closeModal();
+
+    }
+
+  };
+
+
+document.addEventListener("keydown",e=>{
+
+  if(e.key === "Escape"){
+
+    closeModal();
+
+  }
+
+});
+
+
 </script>
+
 </body>
 </html>
